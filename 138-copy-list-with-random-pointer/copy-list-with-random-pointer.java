@@ -49,7 +49,7 @@ class Solution {
         temp2 = head2;
 
         //assigning random pointers
-        while(temp1!=null && temp2!=null){
+        while(temp1!=null){
             if(temp1.random == null) temp2.random = null;
             else temp2.random = temp1.random.next;
             temp1  = temp2.next;
