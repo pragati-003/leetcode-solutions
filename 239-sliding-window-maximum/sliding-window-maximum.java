@@ -1,37 +1,32 @@
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
-        //n - (k -1) = n-k+1
-        
-        int[] ans = new int[n-k+1];
+        int[] ans = new int[n - k + 1];
 
-        int z = 0;
-        Stack<Integer> st = new Stack<>();
+        Deque<Integer> dq = new ArrayDeque<>();
+        int idx = 0;
 
-        int[] nge = new int[n];
+        for(int i = 0; i < n; i++) {
 
-        st.push(n-1);
-        nge[n-1] = n;
-
-        for(int i = n-2;i>=0;i--){
-            while(st.size()>0 && nums[i]>nums[st.peek()])
-                st.pop();
-            
-            if(st.size() == 0) nge[i] = n;
-            else nge[i] = st.peek();
-            st.push(i);
-        }
-
-        int j = 0;
-        for(int i = 0;i<n-k+1;i++){
-            if(j>=i+k) j = i;
-            int max = nums[j];
-            while(j<i+k){
-                max = nums[j];
-                j = nge[j];
+            // 1. Remove elements out of window
+            if(!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.pollFirst();
             }
-            ans[z++] = max;
+
+            // 2. Maintain decreasing order
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {
+                dq.pollLast();
+            }
+
+            // 3. Add current index
+            dq.offerLast(i);
+
+            // 4. Store answer
+            if(i >= k - 1) {
+                ans[idx++] = nums[dq.peekFirst()];
+            }
         }
+
         return ans;
     }
 }
