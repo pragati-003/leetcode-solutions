@@ -15,7 +15,7 @@ class Solution {
         return;
     }
 
-    for(int i = start; i <= n; i++){
+    for(int i = start; i <= n - (k - curr.size()) + 1; i++){
         curr.add(i);
         backtrack(i + 1, n, k, curr, ans);
         curr.remove(curr.size() - 1);
